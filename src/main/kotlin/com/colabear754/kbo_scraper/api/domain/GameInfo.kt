@@ -29,17 +29,17 @@ class GameInfo(
     val date: LocalDate,
     var time: LocalTime?,
     @Enumerated(EnumType.STRING)
-    val homeTeam: Team,
-    @Enumerated(EnumType.STRING)
     val awayTeam: Team,
-    var homeScore: Int?,
+    @Enumerated(EnumType.STRING)
+    val homeTeam: Team,
     var awayScore: Int?,
-    @Size(max = 20)
-    @Column(length = 20)
-    var stadium: String,
+    var homeScore: Int?,
     @Size(max = 100)
     @Column(length = 100)
     var relay: String?,
+    @Size(max = 20)
+    @Column(length = 20)
+    var stadium: String,
     @Enumerated(EnumType.STRING)
     var gameStatus: GameStatus,
     @Enumerated(EnumType.STRING)
@@ -57,16 +57,16 @@ class GameInfo(
 
     fun update(gameInfo: GameInfo): Boolean {
         val isUpdated = this.time?.equals(gameInfo.time) == false
-                || this.homeScore != gameInfo.homeScore
                 || this.awayScore != gameInfo.awayScore
+                || this.homeScore != gameInfo.homeScore
                 || this.stadium != gameInfo.stadium
                 || this.relay != gameInfo.relay
                 || this.gameStatus != gameInfo.gameStatus
                 || this.cancellationReason != gameInfo.cancellationReason
 
         this.time = gameInfo.time
-        this.homeScore = gameInfo.homeScore
         this.awayScore = gameInfo.awayScore
+        this.homeScore = gameInfo.homeScore
         this.stadium = gameInfo.stadium
         this.relay = gameInfo.relay
         this.gameStatus = gameInfo.gameStatus
