@@ -1,0 +1,9 @@
+kbo:
+  scraper:
+    game-schedule:
+      url: https://www.koreabaseball.com/Schedule/Schedule.aspx
+      selectors:
+        year: "#ddlYear"
+        month: "#ddlMonth"
+        series: "#ddlSeries"
+        games-table: "#tblScheduleList > tbody"

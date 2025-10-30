@@ -1,0 +1,9 @@
+spring:
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:./data/kbo-crawler
+    username: sa
+    password:
+  config:
+    import:
+      - classpath:kbo-scraper.yml
