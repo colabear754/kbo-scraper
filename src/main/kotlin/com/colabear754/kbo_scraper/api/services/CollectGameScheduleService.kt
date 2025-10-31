@@ -76,6 +76,4 @@ private fun Locator.selectOptionAndWaitForDomChange(
         ElementState.HIDDEN,
         ElementHandle.WaitForElementStateOptions().apply { timeout = 10000.0 }
     )
-
-    waitFor()
 }
