@@ -52,12 +52,12 @@ class CollectGameScheduleService(
         }
 
     private fun Browser.scrapeGameInfo(season: Int, month: Int, seriesType: SeriesType): List<GameInfo> {
-        return navigateAndBlock("https://www.koreabaseball.com/Schedule/Schedule.aspx") {
-            val scheduleTableLocator = locator("#tblScheduleList > tbody")
+        return navigateAndBlock(gameScheduleProperties.url) {
+            val scheduleTableLocator = locator(gameScheduleProperties.selectors.gamesTable)
             // 시즌 및 시리즈 선택
-            scheduleTableLocator.selectOptionAndWaitForDomChange("#ddlYear", "$season")
-            scheduleTableLocator.selectOptionAndWaitForDomChange("#ddlMonth", "$month".padStart(2, '0'))
-            scheduleTableLocator.selectOptionAndWaitForDomChange("#ddlSeries", seriesType.code)
+            scheduleTableLocator.selectOptionAndWaitForDomChange(gameScheduleProperties.selectors.year, "$season")
+            scheduleTableLocator.selectOptionAndWaitForDomChange(gameScheduleProperties.selectors.month, "$month".padStart(2, '0'))
+            scheduleTableLocator.selectOptionAndWaitForDomChange(gameScheduleProperties.selectors.series, seriesType.code)
             // 전체 row 선택 후 파싱하여 반환
             parseGameSchedule(scheduleTableLocator.locator("tr").all(), season, seriesType)
         }
