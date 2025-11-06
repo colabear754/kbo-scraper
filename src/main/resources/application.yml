@@ -7,3 +7,6 @@ spring:
   config:
     import:
       - classpath:kbo-scraper.yml
+  jackson:
+    mapper:
+      accept-case-insensitive-enums: true
