@@ -56,7 +56,8 @@ class CollectGameScheduleService(
             scheduleTableLocator.selectOptionAndWaitForDomChange(gameScheduleProperties.selectors.month, "$month".padStart(2, '0'))
             scheduleTableLocator.selectOptionAndWaitForDomChange(gameScheduleProperties.selectors.series, seriesType.code)
             // 전체 row 선택 후 파싱하여 반환
-            parseGameSchedule(scheduleTableLocator.locator("tr").all(), season, seriesType)
+            val scheduleTableRows = scheduleTableLocator.locator("tr").all()
+            parseGameSchedule(scheduleTableRows, season, seriesType)
         }
     }
 }
