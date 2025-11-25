@@ -1,6 +1,7 @@
 package com.colabear754.kbo_scraper.api.handlers
 
 import com.colabear754.kbo_scraper.api.dto.GlobalResponse
+import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.core.MethodParameter
 import org.springframework.http.MediaType
 import org.springframework.http.converter.HttpMessageConverter
@@ -10,13 +11,14 @@ import org.springframework.web.ErrorResponse
 import org.springframework.web.bind.annotation.RestControllerAdvice
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice
 
-@RestControllerAdvice(basePackages = ["com.colabear754.kbo_crawler.api.controllers"])
-class GlobalResponseHandler : ResponseBodyAdvice<Any?> {
+@RestControllerAdvice(basePackages = ["com.colabear754.kbo_scraper.api.controllers"])
+class GlobalResponseHandler(
+    private val objectMapper: ObjectMapper
+) : ResponseBodyAdvice<Any?> {
     companion object {
         private val unSupportedTypes = setOf(
             GlobalResponse::class.java,
-            ErrorResponse::class.java,
-            Unit::class.java
+            ErrorResponse::class.java
         )
     }
 
@@ -35,6 +37,11 @@ class GlobalResponseHandler : ResponseBodyAdvice<Any?> {
         request: ServerHttpRequest,
         response: ServerHttpResponse
     ): Any? {
+        if (returnType.parameterType == String::class.java) {
+            response.headers.contentType = MediaType.APPLICATION_JSON
+            return objectMapper.writeValueAsString(GlobalResponse.success(body))
+        }
+
         return GlobalResponse.success(body)
     }
 }
