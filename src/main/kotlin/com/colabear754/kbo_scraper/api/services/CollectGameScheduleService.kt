@@ -23,7 +23,7 @@ class CollectGameScheduleService(
 ) {
     suspend fun collectAndSaveSeasonGameInfo(
         season: Int,
-        seriesType: SeriesType?
+        seriesType: SeriesType? = null
     ): CollectDataResponse {
         // seriesType이 null이면 전체 시리즈 수집
         val seriesTypes = seriesType?.let { listOf(it) } ?: SeriesType.entries
