@@ -38,7 +38,7 @@ class CollectGameScheduleService(
             }
         }
 
-        return gameInfoDataService.saveOrUpdateGameInfo(seasonGameInfo)
+        return withContext(Dispatchers.IO) { gameInfoDataService.saveOrUpdateGameInfo(seasonGameInfo) }
     }
 
     private fun <R> launchChromium(action: Browser.() -> R): R =
