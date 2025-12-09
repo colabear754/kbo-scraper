@@ -27,12 +27,12 @@ class CollectGameScheduleService(
     ): CollectDataResponse {
         // seriesType이 null이면 전체 시리즈 수집
         val seriesTypes = seriesType?.let { listOf(it) } ?: SeriesType.entries
-        // 1월부터 12월까지 해당 시즌/시리즈의 경기 일정을 비동기 수집 후 취합
+        // 1월부터 12월까지 해당 시즌/시리즈의 경기 일정을 병렬 수집 후 취합
         val seasonGameInfo = coroutineScope {
             seriesTypes.flatMap { type ->
                 (1..12).map { month -> async(Dispatchers.IO) {
                     // KBO 서버 부하 방지를 위한 랜덤 딜레이(0.1 ~ 0.5초)
-                    delay(Random.nextLong(100, 500).milliseconds)
+                    delay(Random.nextLong(100, 501).milliseconds)
                     launchChromium { scrapeGameInfo(season, month, type) }
                 } }.awaitAll().flatten()
             }
