@@ -9,9 +9,17 @@ import java.time.LocalDate
 class CollectGameInfoScheduler(
     private val collectGameScheduleService: CollectGameScheduleService
 ) {
-    @Scheduled(cron = "0 0 3 * 2-11 *")
-    suspend fun collectGameInfo() {
+    @Scheduled(cron = "0 0 4 * 2-3 MON,THU")
+    suspend fun collectSeasonAllGameInfo() {
         val currentSeason = LocalDate.now().year
         collectGameScheduleService.collectAndSaveSeasonGameInfo(currentSeason)
+    }
+
+    @Scheduled(cron = "0 30 4 * 3-11 *")
+    suspend fun collectCurrentMonthGameInfo() {
+        val now = LocalDate.now()
+        val currentSeason = now.year
+        val currentMonth = now.monthValue
+        collectGameScheduleService.collectAndSaveCurrentAndNextMonthGameInfo(currentSeason, currentMonth)
     }
 }

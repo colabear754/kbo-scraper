@@ -3,6 +3,7 @@ package com.colabear754.kbo_scraper.api.services
 import com.colabear754.kbo_scraper.api.domain.GameInfo
 import com.colabear754.kbo_scraper.api.domain.SeriesType
 import com.colabear754.kbo_scraper.api.dto.responses.CollectDataResponse
+import com.colabear754.kbo_scraper.api.exceptions.InvalidMonthRangeException
 import com.colabear754.kbo_scraper.api.properties.GameScheduleProperties
 import com.colabear754.kbo_scraper.api.scrapers.navigateAndBlock
 import com.colabear754.kbo_scraper.api.scrapers.parseGameSchedule
@@ -25,16 +26,48 @@ class CollectGameScheduleService(
         season: Int,
         seriesType: SeriesType? = null
     ): CollectDataResponse {
+        return coroutineScope { scrapeAndSaveGameInfo(seriesType, season, 1, 12) }
+    }
+
+    suspend fun collectAndSaveCurrentAndNextMonthGameInfo(
+        season: Int,
+        month: Int,
+        seriesType: SeriesType? = null
+    ): CollectDataResponse {
+        return coroutineScope { scrapeAndSaveGameInfo(seriesType, season, month, month + 1) }
+    }
+
+    /**
+     * 시즌 연도와 월 범위에 해당하는 경기 일정을 스크래핑하고 저장한다.
+     *
+     * @param seriesType 스크래핑할 시리즈 타입 (null이면 전체 시리즈)
+     * @param season 시즌 연도
+     * @param startMonth 시작 월 (1~12)
+     * @param endMonth 종료 월 (1~12)
+     * @return 스크래핑된 경기 일정 목록
+     */
+    private suspend fun scrapeAndSaveGameInfo(
+        seriesType: SeriesType?,
+        season: Int,
+        startMonth: Int,
+        endMonth: Int
+    ): CollectDataResponse {
+        if (startMonth !in 1..12 || endMonth !in 1..12 || startMonth > endMonth) {
+            throw InvalidMonthRangeException(startMonth, endMonth)
+        }
+
         // seriesType이 null이면 전체 시리즈 수집
         val seriesTypes = seriesType?.let { listOf(it) } ?: SeriesType.entries
-        // 1월부터 12월까지 해당 시즌/시리즈의 경기 일정을 병렬 수집 후 취합
+
         val seasonGameInfo = coroutineScope {
             seriesTypes.flatMap { type ->
-                (1..12).map { month -> async(Dispatchers.IO) {
-                    // KBO 서버 부하 방지를 위한 랜덤 딜레이(0.1 ~ 0.5초)
-                    delay(Random.nextLong(100, 501).milliseconds)
-                    launchChromium { scrapeGameInfo(season, month, type) }
-                } }.awaitAll().flatten()
+                (startMonth..endMonth).map { month ->
+                    async(Dispatchers.IO) {
+                        // KBO 서버 부하 방지를 위한 랜덤 딜레이(0.1 ~ 0.5초)
+                        delay(Random.nextLong(100, 501).milliseconds)
+                        launchChromium { scrapeGameInfo(season, month, type) }
+                    }
+                }.awaitAll().flatten()
             }
         }
 

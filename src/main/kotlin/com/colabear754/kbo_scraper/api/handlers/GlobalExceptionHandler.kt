@@ -1,6 +1,7 @@
 package com.colabear754.kbo_scraper.api.handlers
 
 import com.colabear754.kbo_scraper.api.dto.GlobalResponse
+import com.colabear754.kbo_scraper.api.exceptions.InvalidMonthRangeException
 import com.fasterxml.jackson.databind.exc.InvalidFormatException
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -32,6 +33,12 @@ class GlobalExceptionHandler {
             else -> "요청 형식이 올바르지 않습니다."
         }
         return ResponseEntity.badRequest().body(GlobalResponse.error(HttpStatus.BAD_REQUEST, message))
+    }
+
+    @ExceptionHandler(InvalidMonthRangeException::class)
+    fun handleInvalidMonthRangeException(e: InvalidMonthRangeException): ResponseEntity<GlobalResponse<*>> {
+        return ResponseEntity.badRequest()
+            .body(GlobalResponse.error(HttpStatus.BAD_REQUEST, e.message ?: "유효하지 않은 월 범위입니다."))
     }
 
     @ExceptionHandler(Exception::class)
