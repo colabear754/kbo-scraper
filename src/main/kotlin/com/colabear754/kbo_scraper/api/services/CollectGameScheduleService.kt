@@ -5,13 +5,11 @@ import com.colabear754.kbo_scraper.api.domain.SeriesType
 import com.colabear754.kbo_scraper.api.dto.responses.CollectDataResponse
 import com.colabear754.kbo_scraper.api.exceptions.InvalidMonthRangeException
 import com.colabear754.kbo_scraper.api.properties.GameScheduleProperties
+import com.colabear754.kbo_scraper.api.scrapers.launchChromium
 import com.colabear754.kbo_scraper.api.scrapers.navigateAndBlock
 import com.colabear754.kbo_scraper.api.scrapers.parseGameSchedule
+import com.colabear754.kbo_scraper.api.scrapers.selectOptionAndWaitForDomChange
 import com.microsoft.playwright.Browser
-import com.microsoft.playwright.ElementHandle
-import com.microsoft.playwright.Locator
-import com.microsoft.playwright.Playwright
-import com.microsoft.playwright.options.ElementState
 import kotlinx.coroutines.*
 import org.springframework.stereotype.Service
 import kotlin.random.Random
@@ -74,13 +72,6 @@ class CollectGameScheduleService(
         return withContext(Dispatchers.IO) { gameInfoDataService.saveOrUpdateGameInfo(seasonGameInfo) }
     }
 
-    private fun <R> launchChromium(action: Browser.() -> R): R =
-        Playwright.create().use { playwright ->
-            playwright.chromium().launch().use { browser ->
-                browser.action()
-            }
-        }
-
     private fun Browser.scrapeGameInfo(season: Int, month: Int, seriesType: SeriesType): List<GameInfo> {
         return navigateAndBlock(gameScheduleProperties.url) {
             val scheduleTableLocator = locator(gameScheduleProperties.selectors.gamesTable)
@@ -93,25 +84,4 @@ class CollectGameScheduleService(
             parseGameSchedule(scheduleTableRows, season, seriesType)
         }
     }
-}
-
-/**
- * 셀렉트 박스 조작 후 DOM이 사라질 때까지 대기한다.
- *
- * @receiver 사라질 요소의 Locator
- * @param selectBoxSelector 셀렉트 박스 선택자
- * @param optionValue 선택할 옵션 값
- */
-private fun Locator.selectOptionAndWaitForDomChange(
-    selectBoxSelector: String,
-    optionValue: String
-) {
-    val oldElement = elementHandle()
-
-    page().locator(selectBoxSelector).selectOption(optionValue)
-
-    oldElement?.waitForElementState(
-        ElementState.HIDDEN,
-        ElementHandle.WaitForElementStateOptions().apply { timeout = 10000.0 }
-    )
 }
