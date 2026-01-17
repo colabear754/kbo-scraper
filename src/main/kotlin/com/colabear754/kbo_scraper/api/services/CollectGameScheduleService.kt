@@ -8,6 +8,7 @@ import com.colabear754.kbo_scraper.api.scrapers.launchChromium
 import com.colabear754.kbo_scraper.api.scrapers.navigateAndBlock
 import com.colabear754.kbo_scraper.api.scrapers.parseGameSchedule
 import com.colabear754.kbo_scraper.api.scrapers.selectOptionAndWaitForDomChange
+import com.colabear754.kbo_scraper.api.services.persistence.GameInfoWriter
 import com.microsoft.playwright.Browser
 import kotlinx.coroutines.*
 import org.springframework.stereotype.Service
@@ -17,7 +18,7 @@ import kotlin.time.Duration.Companion.milliseconds
 @Service
 class CollectGameScheduleService(
     private val gameScheduleProperties: GameScheduleProperties,
-    private val gameInfoDataService: GameInfoDataService
+    private val gameInfoWriter: GameInfoWriter
 ) {
     suspend fun collectAndSaveSeasonGameInfo(
         season: Int,
@@ -75,7 +76,7 @@ class CollectGameScheduleService(
             }
         }
 
-        return withContext(Dispatchers.IO) { gameInfoDataService.saveOrUpdateGameInfo(seasonGameInfo) }
+        return withContext(Dispatchers.IO) { gameInfoWriter.saveOrUpdateGameInfo(seasonGameInfo) }
     }
 
     private fun Browser.scrapeGameInfo(season: Int, month: Int, seriesType: SeriesType): List<GameInfo> {
