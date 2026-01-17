@@ -2,15 +2,10 @@ package com.colabear754.kbo_scraper.api.domain
 
 import jakarta.persistence.*
 import jakarta.validation.constraints.Size
-import org.springframework.data.annotation.CreatedDate
-import org.springframework.data.annotation.LastModifiedDate
-import org.springframework.data.jpa.domain.support.AuditingEntityListener
 import java.time.LocalDate
-import java.time.LocalDateTime
 import java.time.LocalTime
 
 @Entity
-@EntityListeners(AuditingEntityListener::class)
 class GameInfo(
     @Size(max = 25)
     @Column(unique = true, nullable = false, updatable = false, length = 25)
@@ -37,16 +32,10 @@ class GameInfo(
     var gameStatus: GameStatus,
     @Enumerated(EnumType.STRING)
     var cancellationReason: CancellationReason?
-) {
+) : BaseEntity() {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val gameId: Long? = null
-    @CreatedDate
-    lateinit var createdAt: LocalDateTime
-        protected set
-    @LastModifiedDate
-    lateinit var modifiedAt: LocalDateTime
-        protected set
 
     fun update(newGameInfo: GameInfo): Boolean {
         val isUpdated = this.time != newGameInfo.time
