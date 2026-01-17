@@ -21,12 +21,12 @@ class GameScheduleController(
     }
 
     @GetMapping("/{team}/{date}")
-    fun findGameInfo(@PathVariable team: Team, @PathVariable date: LocalDate): List<FindGameInfoResponse> {
+    suspend fun findGameInfo(@PathVariable team: Team, @PathVariable date: LocalDate): List<FindGameInfoResponse> {
         return gameInfoDataService.findGameInfoByTeamAndDate(date, team)
     }
 
     @GetMapping("/{gameKey}")
-    fun findSpecificGameInfo(@PathVariable gameKey: String): FindGameInfoResponse? {
+    suspend fun findSpecificGameInfo(@PathVariable gameKey: String): FindGameInfoResponse? {
         return gameInfoDataService.findGameInfoByGameKey(gameKey)
     }
 }

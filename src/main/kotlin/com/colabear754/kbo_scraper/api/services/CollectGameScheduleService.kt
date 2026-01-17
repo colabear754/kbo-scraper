@@ -34,6 +34,14 @@ class CollectGameScheduleService(
         return coroutineScope { scrapeAndSaveGameInfo(seriesType, season, month, month + 1) }
     }
 
+    suspend fun collectAndSaveMonthGameInfo(
+        season: Int,
+        month: Int,
+        seriesType: SeriesType? = null
+    ): CollectDataResponse {
+        return coroutineScope { scrapeAndSaveGameInfo(seriesType, season, month) }
+    }
+
     /**
      * 시즌 연도와 월 범위에 해당하는 경기 일정을 스크래핑하고 저장한다.
      *
@@ -47,7 +55,7 @@ class CollectGameScheduleService(
         seriesType: SeriesType?,
         season: Int,
         startMonth: Int,
-        endMonth: Int
+        endMonth: Int = startMonth
     ): CollectDataResponse {
         require(startMonth in 1..12 && endMonth in 1..12) { "월 값은 1부터 12 사이여야 합니다." }
         require(startMonth <= endMonth) { "시작 월은 종료 월 이하여야 합니다." }

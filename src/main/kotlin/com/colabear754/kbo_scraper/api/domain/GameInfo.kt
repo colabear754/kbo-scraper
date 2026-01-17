@@ -3,6 +3,7 @@ package com.colabear754.kbo_scraper.api.domain
 import jakarta.persistence.*
 import jakarta.validation.constraints.Size
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.LocalTime
 
 @Entity
@@ -61,6 +62,18 @@ class GameInfo(
         this.cancellationReason = newGameInfo.cancellationReason
 
         return true
+    }
+
+    fun isExpired(): Boolean {
+        if (gameStatus == GameStatus.FINISHED || gameStatus == GameStatus.CANCELLED) {
+            return false
+        }
+        val now = LocalDateTime.now()
+        val timeoutMinutes = when {
+            now >= LocalDateTime.of(date, time) -> 10L
+            else -> 60L
+        }
+        return modifiedAt < now.minusMinutes(timeoutMinutes)
     }
 
     override fun equals(other: Any?) =
