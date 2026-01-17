@@ -17,8 +17,10 @@ class GameInfo(
     val date: LocalDate,
     var time: LocalTime?,
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     val awayTeam: Team,
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     val homeTeam: Team,
     var awayScore: Int?,
     var homeScore: Int?,
