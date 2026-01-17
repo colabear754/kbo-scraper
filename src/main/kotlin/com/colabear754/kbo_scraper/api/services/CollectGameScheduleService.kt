@@ -3,7 +3,6 @@ package com.colabear754.kbo_scraper.api.services
 import com.colabear754.kbo_scraper.api.domain.GameInfo
 import com.colabear754.kbo_scraper.api.domain.SeriesType
 import com.colabear754.kbo_scraper.api.dto.responses.CollectDataResponse
-import com.colabear754.kbo_scraper.api.exceptions.InvalidMonthRangeException
 import com.colabear754.kbo_scraper.api.properties.GameScheduleProperties
 import com.colabear754.kbo_scraper.api.scrapers.launchChromium
 import com.colabear754.kbo_scraper.api.scrapers.navigateAndBlock
@@ -50,9 +49,8 @@ class CollectGameScheduleService(
         startMonth: Int,
         endMonth: Int
     ): CollectDataResponse {
-        if (startMonth !in 1..12 || endMonth !in 1..12 || startMonth > endMonth) {
-            throw InvalidMonthRangeException(startMonth, endMonth)
-        }
+        require(startMonth in 1..12 && endMonth in 1..12) { "월 값은 1부터 12 사이여야 합니다." }
+        require(startMonth <= endMonth) { "시작 월은 종료 월 이하여야 합니다." }
 
         // seriesType이 null이면 전체 시리즈 수집
         val seriesTypes = seriesType?.let { listOf(it) } ?: SeriesType.entries
