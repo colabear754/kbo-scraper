@@ -12,7 +12,7 @@ import io.kotest.matchers.shouldBe
 import java.time.LocalDate
 import java.time.LocalTime
 
-class KboGameInfoParserTest : StringSpec({
+class KboParserTest : StringSpec({
     fun <R> playwrightTest(html: String, block: Page.() -> R) = Playwright.create().use { playwright ->
         playwright.chromium().launch().use { browser ->
             browser.newPage().use {
