@@ -1,4 +1,4 @@
-package com.colabear754.kbo_scraper.api.initializer
+package com.colabear754.kbo_scraper.initializer
 
 import com.colabear754.kbo_scraper.api.repositories.GameInfoRepository
 import com.colabear754.kbo_scraper.api.services.CollectGameScheduleService
