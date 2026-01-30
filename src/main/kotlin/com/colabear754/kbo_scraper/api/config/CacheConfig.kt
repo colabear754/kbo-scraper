@@ -38,7 +38,7 @@ class CacheConfig {
         }
 
         override fun expireAfterUpdate(key: LocalDate, value: List<GameInfo>, currentTime: Long, currentDuration: @NonNegative Long): Long {
-            return value.minOfOrNull { it.getCacheExpiration() } ?: Duration.between(LocalTime.now(), LocalTime.MAX).toKotlinDuration().inWholeNanoseconds
+            return expireAfterCreate(key, value, currentTime)
         }
 
         override fun expireAfterRead(key: LocalDate, value: List<GameInfo>, currentTime: Long, currentDuration: @NonNegative Long): Long {
@@ -52,7 +52,7 @@ class CacheConfig {
         }
 
         override fun expireAfterUpdate(key: String, value: GameInfo, currentTime: Long, currentDuration: @NonNegative Long): Long {
-            return value.getCacheExpiration()
+            return expireAfterCreate(key, value, currentTime)
         }
 
         override fun expireAfterRead(key: String, value: GameInfo, currentTime: Long, currentDuration: @NonNegative Long): Long {
