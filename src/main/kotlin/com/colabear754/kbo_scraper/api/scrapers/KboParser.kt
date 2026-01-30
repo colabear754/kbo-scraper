@@ -77,3 +77,30 @@ internal fun parseGameSchedule(locators: List<Locator>, season: Int, seriesType:
 
     return gameInfoList
 }
+
+/**
+ * 팀 시즌 기록 테이블의 row Locator 리스트를 파싱하여 팀 시즌 기록 리스트로 반환하는 함수.
+ * 테스트 코드에서 원활하게 호출할 수 있도록 단독 탑레벨 함수로 작성.
+ *
+ * @param locators row Locator 리스트
+ * @param season 경기 시즌
+ * @return 팀 시즌 기록 리스트
+ */
+internal fun parseTeamSeasonRecord(locators: List<Locator>, season: Int): List<TeamSeasonRecord> {
+    return locators.map { row ->
+        val columns = row.locator("td").all()
+        TeamSeasonRecord(
+            season = season,
+            team = Team.findByTeamName(columns[1].innerText() ?: "Unknown"),
+            teamRank = columns[0].innerText()?.toInt() ?: -1,
+            gamesPlayed = columns[2].innerText()?.toInt() ?: 0,
+            wins = columns[3].innerText()?.toInt() ?: 0,
+            losses = columns[4].innerText()?.toInt() ?: 0,
+            draws = columns[5].innerText()?.toInt() ?: 0,
+            winRate = columns[6].innerText()?.toDouble() ?: 0.0,
+            gamesBehind = columns[7].innerText()?.toDouble() ?: 0.0,
+            recent10Games = columns[8].innerText() ?: "",
+            streak = columns[9].innerText() ?: ""
+        )
+    }
+}
