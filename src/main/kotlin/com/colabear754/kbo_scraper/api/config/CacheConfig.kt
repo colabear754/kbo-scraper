@@ -4,6 +4,7 @@ import com.colabear754.kbo_scraper.api.constants.GAME_INFO_BY_DATE
 import com.colabear754.kbo_scraper.api.constants.GAME_INFO_BY_KEY
 import com.colabear754.kbo_scraper.api.constants.TEAM_SEASON_RECORD
 import com.colabear754.kbo_scraper.api.domain.GameInfo
+import com.colabear754.kbo_scraper.api.domain.TeamSeasonRecord
 import com.github.benmanes.caffeine.cache.Cache
 import com.github.benmanes.caffeine.cache.Caffeine
 import com.github.benmanes.caffeine.cache.Expiry
@@ -32,6 +33,12 @@ class CacheConfig {
                 .expireAfter(GameInfoByKeyExpiry)
                 .maximumSize(1000L)
                 .build())
+
+        registerCache(TEAM_SEASON_RECORD,
+            Caffeine.newBuilder()
+                .expireAfter(TeamSeasonRecordExpiry)
+                .maximumSize(100L)
+                .build())
     }
 
     object GameInfoByDateExpiry : Expiry<LocalDate, List<GameInfo>> {
@@ -58,6 +65,20 @@ class CacheConfig {
         }
 
         override fun expireAfterRead(key: String, value: GameInfo, currentTime: Long, currentDuration: @NonNegative Long): Long {
+            return currentDuration
+        }
+    }
+
+    object TeamSeasonRecordExpiry : Expiry<Int, List<TeamSeasonRecord>> {
+        override fun expireAfterCreate(key: Int, value: List<TeamSeasonRecord>, currentTime: Long): Long {
+            return Duration.between(LocalTime.now(), LocalTime.MAX).toKotlinDuration().inWholeNanoseconds
+        }
+
+        override fun expireAfterUpdate(key: Int, value: List<TeamSeasonRecord>, currentTime: Long, currentDuration: @NonNegative Long): Long {
+            return expireAfterCreate(key, value, currentTime)
+        }
+
+        override fun expireAfterRead(key: Int, value: List<TeamSeasonRecord>, currentTime: Long, currentDuration: @NonNegative Long): Long {
             return currentDuration
         }
     }

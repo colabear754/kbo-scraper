@@ -7,3 +7,9 @@ kbo:
         month: "#ddlMonth"
         series: "#ddlSeries"
         games-table: "#tblScheduleList > tbody"
+    team-record:
+      url: https://www.koreabaseball.com/Record/TeamRank/TeamRank.aspx
+      selectors:
+        year: "#cphContents_cphContents_cphContents_ddlYear"
+        series: "#cphContents_cphContents_cphContents_ddlSeries"
+        rank-table: "#cphContents_cphContents_cphContents_udpRecord > table > tbody"
