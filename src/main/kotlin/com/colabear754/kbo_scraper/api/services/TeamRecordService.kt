@@ -24,7 +24,7 @@ class TeamRecordService(
             navigateAndBlock(teamRecordProperties.url) {
                 val rankTableLocator = locator(teamRecordProperties.selectors.rankTable)
                 // 파라미터로 받은 시즌 존재 여부 확인
-                if (rankTableLocator.locator("option[value=$season]").isHidden) {
+                if (locator("${teamRecordProperties.selectors.year} option[value=\"$season\"]").count() == 0) {
                     throw NoSuchElementException("$season 팀 기록 정보가 존재하지 않습니다.")
                 }
                 // 시즌 선택
