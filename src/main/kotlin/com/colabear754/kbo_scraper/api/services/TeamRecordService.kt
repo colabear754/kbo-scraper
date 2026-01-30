@@ -1,7 +1,7 @@
 package com.colabear754.kbo_scraper.api.services
 
 import com.colabear754.kbo_scraper.api.domain.Team
-import com.colabear754.kbo_scraper.api.dto.responses.TeamRecords
+import com.colabear754.kbo_scraper.api.dto.responses.TeamRecordResponse
 import com.colabear754.kbo_scraper.api.properties.TeamRecordProperties
 import com.colabear754.kbo_scraper.api.repositories.TeamSeasonRecordRepository
 import com.colabear754.kbo_scraper.api.repositories.cache.TeamSeasonRecordCacheRepository
@@ -45,14 +45,14 @@ class TeamRecordService(
         teamSeasonRecordRepository.saveAll(seasonRecords.filter { existingRecordMap[it.team] == null })
     }
 
-    fun inquiryAllTeamRankings(season: Int): List<TeamRecords> {
+    fun inquiryAllTeamRankings(season: Int): List<TeamRecordResponse> {
         return teamSeasonRecordCacheRepository.findBySeason(season)
-            .map(TeamRecords::from)
+            .map(TeamRecordResponse::from)
     }
 
-    fun inquiryTeamRanking(season: Int, team: Team): TeamRecords {
+    fun inquiryTeamRanking(season: Int, team: Team): TeamRecordResponse {
         return teamSeasonRecordCacheRepository.findBySeason(season)
             .firstOrNull { it.team == team }
-            ?.let(TeamRecords::from) ?: throw NoSuchElementException("$season ${team.teamFullName} 기록 정보가 존재하지 않습니다.")
+            ?.let(TeamRecordResponse::from) ?: throw NoSuchElementException("$season ${team.teamFullName} 기록 정보가 존재하지 않습니다.")
     }
 }

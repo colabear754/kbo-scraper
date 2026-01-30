@@ -2,7 +2,7 @@ package com.colabear754.kbo_scraper.api.dto.responses
 
 import com.colabear754.kbo_scraper.api.domain.TeamSeasonRecord
 
-data class TeamRecords(
+data class TeamRecordResponse(
     val rank: Int,
     val teamName: String,
     val gamesPlayed: Int,
@@ -13,9 +13,9 @@ data class TeamRecords(
     val recent10Games: String
 ) {
     companion object {
-        fun from(teamSeasonRecord: TeamSeasonRecord) = TeamRecords(
+        fun from(teamSeasonRecord: TeamSeasonRecord) = TeamRecordResponse(
             rank = teamSeasonRecord.teamRank,
-            teamName = teamSeasonRecord.team.teamName,
+            teamName = teamSeasonRecord.team.teamFullName,
             gamesPlayed = teamSeasonRecord.gamesPlayed,
             wins = teamSeasonRecord.wins,
             losses = teamSeasonRecord.losses,
