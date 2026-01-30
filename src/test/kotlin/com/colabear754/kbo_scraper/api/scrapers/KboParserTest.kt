@@ -4,6 +4,7 @@ import com.colabear754.kbo_scraper.api.domain.CancellationReason
 import com.colabear754.kbo_scraper.api.domain.GameStatus
 import com.colabear754.kbo_scraper.api.domain.SeriesType
 import com.colabear754.kbo_scraper.api.domain.Team
+import com.colabear754.kbo_scraper.api.domain.TeamSeasonRecord
 import com.microsoft.playwright.Page
 import com.microsoft.playwright.Playwright
 import io.kotest.core.spec.style.StringSpec
@@ -300,5 +301,42 @@ class KboParserTest : StringSpec({
         val gameSchedule = playwrightTest(html) { parseGameSchedule(locator("#tblScheduleList > tbody").locator("tr").all(), 2025, SeriesType.REGULAR_SEASON) }
         // then
         gameSchedule.size shouldBe 0
+    }
+
+    "팀 순위를 파싱한다" {
+        // given
+        val html = javaClass.getResource("/team-rank.html")?.readText() ?: ""
+        // when
+        val teamSeasonRecords = playwrightTest(html) { parseTeamSeasonRecord(locator(".tData > tbody > tr").all(), 2025) }
+        // then
+        teamSeasonRecords.size shouldBe 10
+
+        // 1위 LG
+        val lg = teamSeasonRecords[0]
+        lg.season shouldBe 2025
+        lg.team shouldBe Team.LG
+        lg.teamRank shouldBe 1
+        lg.gamesPlayed shouldBe 144
+        lg.wins shouldBe 85
+        lg.losses shouldBe 56
+        lg.draws shouldBe 3
+        lg.winRate shouldBe 0.603
+        lg.gamesBehind shouldBe 0.0
+        lg.recent10Games shouldBe "4승0무6패"
+        lg.streak shouldBe "3패"
+
+        // 2위 한화
+        val hanwha = teamSeasonRecords[1]
+        hanwha.season shouldBe 2025
+        hanwha.team shouldBe Team.HANWHA
+        hanwha.teamRank shouldBe 2
+        hanwha.gamesPlayed shouldBe 144
+        hanwha.wins shouldBe 83
+        hanwha.losses shouldBe 57
+        hanwha.draws shouldBe 4
+        hanwha.winRate shouldBe 0.593
+        hanwha.gamesBehind shouldBe 1.5
+        hanwha.recent10Games shouldBe "5승1무4패"
+        hanwha.streak shouldBe "1패"
     }
 })
