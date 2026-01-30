@@ -1,6 +1,7 @@
 package com.colabear754.kbo_scraper.api.repositories.cache
 
-import com.colabear754.kbo_scraper.api.constants.CacheType
+import com.colabear754.kbo_scraper.api.constants.GAME_INFO_BY_DATE
+import com.colabear754.kbo_scraper.api.constants.GAME_INFO_BY_KEY
 import com.colabear754.kbo_scraper.api.domain.GameInfo
 import org.springframework.cache.CacheManager
 import org.springframework.stereotype.Repository
@@ -10,8 +11,8 @@ import java.time.LocalDate
 class GameInfoCacheRepository(
     private val cacheManager: CacheManager
 ) {
-    private val cacheByDate by lazy { cacheManager.getCache(CacheType.GAME_INFO_BY_DATE.cacheName)!! }
-    private val cacheByKey by lazy { cacheManager.getCache(CacheType.GAME_INFO_BY_KEY.cacheName)!! }
+    private val cacheByDate by lazy { cacheManager.getCache(GAME_INFO_BY_DATE)!! }
+    private val cacheByKey by lazy { cacheManager.getCache(GAME_INFO_BY_KEY)!! }
 
     /**
      * 해당 일자의 경기 정보를 찾아서 반환하고, 캐시에 없을 경우 [loader]를 실행하여 데이터를 적재한 후 반환합니다.

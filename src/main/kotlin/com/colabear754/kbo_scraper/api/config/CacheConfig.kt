@@ -1,6 +1,8 @@
 package com.colabear754.kbo_scraper.api.config
 
-import com.colabear754.kbo_scraper.api.constants.CacheType
+import com.colabear754.kbo_scraper.api.constants.GAME_INFO_BY_DATE
+import com.colabear754.kbo_scraper.api.constants.GAME_INFO_BY_KEY
+import com.colabear754.kbo_scraper.api.constants.TEAM_SEASON_RECORD
 import com.colabear754.kbo_scraper.api.domain.GameInfo
 import com.github.benmanes.caffeine.cache.Cache
 import com.github.benmanes.caffeine.cache.Caffeine
@@ -19,13 +21,13 @@ import kotlin.time.toKotlinDuration
 class CacheConfig {
     @Bean
     fun cacheManager(): CacheManager = CaffeineCacheManager().apply {
-        registerCache(CacheType.GAME_INFO_BY_DATE,
+        registerCache(GAME_INFO_BY_DATE,
             Caffeine.newBuilder()
                 .expireAfter(GameInfoByDateExpiry)
                 .maximumSize(1000L)
                 .build())
 
-        registerCache(CacheType.GAME_INFO_BY_KEY,
+        registerCache(GAME_INFO_BY_KEY,
             Caffeine.newBuilder()
                 .expireAfter(GameInfoByKeyExpiry)
                 .maximumSize(1000L)
@@ -60,8 +62,8 @@ class CacheConfig {
         }
     }
 
-    private fun <K, V> CaffeineCacheManager.registerCache(cacheType: CacheType, cache: Cache<K, V>) {
+    private fun <K, V> CaffeineCacheManager.registerCache(cacheName: String, cache: Cache<K, V>) {
         @Suppress("UNCHECKED_CAST")
-        this.registerCustomCache(cacheType.cacheName, cache as Cache<Any, Any>)
+        this.registerCustomCache(cacheName, cache as Cache<Any, Any>)
     }
 }
