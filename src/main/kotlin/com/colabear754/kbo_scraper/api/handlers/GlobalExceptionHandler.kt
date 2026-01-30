@@ -39,6 +39,12 @@ class GlobalExceptionHandler {
         return ResponseEntity.badRequest().body(GlobalResponse.error(HttpStatus.BAD_REQUEST, e.message ?: "잘못된 요청입니다."))
     }
 
+    @ExceptionHandler(NoSuchElementException::class)
+    fun handleNoSuchElementException(e: NoSuchElementException): ResponseEntity<GlobalResponse<*>> {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+            .body(GlobalResponse.error(HttpStatus.NOT_FOUND, e.message ?: "데이터를 찾을 수 없습니다."))
+    }
+
     @ExceptionHandler(Exception::class)
     fun handleGenericException(): ResponseEntity<GlobalResponse<*>> {
         return ResponseEntity.internalServerError()

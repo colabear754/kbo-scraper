@@ -2,9 +2,13 @@ package com.colabear754.kbo_scraper.api.domain
 
 import jakarta.persistence.*
 import jakarta.validation.constraints.Size
+import java.time.Duration
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
+import kotlin.time.Duration.Companion.days
+import kotlin.time.Duration.Companion.minutes
+import kotlin.time.toKotlinDuration
 
 @Entity
 class GameInfo(
@@ -64,6 +68,10 @@ class GameInfo(
         return true
     }
 
+    fun isMyTeam(team: Team): Boolean {
+        return awayTeam == team || homeTeam == team
+    }
+
     fun isExpired(): Boolean {
         if (gameStatus == GameStatus.FINISHED || gameStatus == GameStatus.CANCELLED) {
             return false
@@ -74,6 +82,19 @@ class GameInfo(
             else -> 60L
         }
         return modifiedAt < now.minusMinutes(timeoutMinutes)
+    }
+
+    fun getCacheExpiration(): Long {
+        val now = LocalDateTime.now()
+        return when (gameStatus) {
+            GameStatus.FINISHED, GameStatus.CANCELLED -> 1.days
+            GameStatus.PLAYING -> 5.minutes
+            GameStatus.SCHEDULED -> {
+                val startTime = LocalDateTime.of(date, time)
+                if (now >= startTime) 5.minutes
+                else minOf(Duration.between(now, startTime).toKotlinDuration(), 60.minutes)
+            }
+        }.inWholeNanoseconds
     }
 
     override fun equals(other: Any?) =

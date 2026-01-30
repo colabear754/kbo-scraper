@@ -5,9 +5,11 @@ import com.colabear754.kbo_scraper.api.domain.GameStatus
 import com.colabear754.kbo_scraper.api.domain.SeriesType
 import com.colabear754.kbo_scraper.api.domain.Team
 import com.colabear754.kbo_scraper.api.repositories.GameInfoRepository
+import com.colabear754.kbo_scraper.api.repositories.cache.GameInfoCacheRepository
 import io.kotest.core.spec.style.BehaviorSpec
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
+import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
 import java.time.LocalDate
@@ -16,7 +18,15 @@ import java.time.LocalTime
 class GameInfoFinderServiceTest : BehaviorSpec({
     val collectGameScheduleService = mockk<CollectGameScheduleService>()
     val gameInfoRepository = mockk<GameInfoRepository>()
-    val gameInfoFinderService = GameInfoFinderService(collectGameScheduleService, gameInfoRepository)
+    val gameInfoCacheRepository = mockk<GameInfoCacheRepository>()
+    val gameInfoFinderService = GameInfoFinderService(collectGameScheduleService, gameInfoRepository, gameInfoCacheRepository)
+
+    coEvery { gameInfoCacheRepository.findOrLoadGameInfoByDate(any(), any()) } coAnswers {
+        secondArg<suspend () -> List<GameInfo>>().invoke()
+    }
+    coEvery { gameInfoCacheRepository.findOrLoadGameInfoByKey(any(), any()) } coAnswers {
+        secondArg<suspend () -> GameInfo?>().invoke() ?: throw NoSuchElementException()
+    }
 
     Given("경기 정보가 저장되어 있을 때") {
         val gameList = listOf(
@@ -51,7 +61,7 @@ class GameInfoFinderServiceTest : BehaviorSpec({
         )
 
         When("특정 날짜, 특정 팀의 경기 결과를 조회하면") {
-            every { gameInfoRepository.findByDateAndTeam(LocalDate.of(2025, 5, 11), Team.LOTTE) } returns gameList
+            every { gameInfoRepository.findByDate(LocalDate.of(2025, 5, 11)) } returns gameList
             val result = gameInfoFinderService.findGameInfoByTeamAndDate(LocalDate.of(2025, 5, 11), Team.LOTTE)
 
             Then("경기 결과가 리스트로 조회된다") {
@@ -90,7 +100,7 @@ class GameInfoFinderServiceTest : BehaviorSpec({
             val result = gameInfoFinderService.findGameInfoByGameKey("20250511-LOTTE-KT-1")
 
             Then("단건 경기 정보가 조회된다") {
-                result!! shouldNotBe null
+                result shouldNotBe null
                 result.gameKey shouldBe "20250511-LOTTE-KT-1"
                 result.seriesType shouldBe "정규시즌"
                 result.date shouldBe LocalDate.of(2025, 5, 11)
