@@ -47,6 +47,7 @@ class TeamRecordService(
 
     fun inquiryAllTeamRankings(season: Int): List<TeamRecordResponse> {
         return teamSeasonRecordCacheRepository.findBySeason(season)
+            .sortedBy { it.teamRank }
             .map(TeamRecordResponse::from)
     }
 
