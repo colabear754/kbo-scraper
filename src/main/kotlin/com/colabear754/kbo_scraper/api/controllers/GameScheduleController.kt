@@ -17,7 +17,7 @@ class GameScheduleController(
 ) {
     @PostMapping("/collect")
     suspend fun collectGameScheduleData(@RequestBody request: CollectDataRequest): CollectDataResponse {
-        return collectGameScheduleService.collectAndSaveSeasonGameInfo(request.season, request.seriesType)
+        return collectGameScheduleService.collectAndSaveSeasonGameInfo(request.season)
     }
 
     @GetMapping("/{team}/{date}")

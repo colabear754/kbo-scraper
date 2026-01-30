@@ -20,40 +20,27 @@ class CollectGameScheduleService(
     private val gameScheduleProperties: GameScheduleProperties,
     private val gameInfoWriter: GameInfoWriter
 ) {
-    suspend fun collectAndSaveSeasonGameInfo(
-        season: Int,
-        seriesType: SeriesType? = null
-    ): CollectDataResponse {
-        return coroutineScope { scrapeAndSaveGameInfo(seriesType, season, 1, 12) }
+    suspend fun collectAndSaveSeasonGameInfo(season: Int): CollectDataResponse {
+        return coroutineScope { scrapeAndSaveGameInfo(season, 1, 12) }
     }
 
-    suspend fun collectAndSaveCurrentAndNextMonthGameInfo(
-        season: Int,
-        month: Int,
-        seriesType: SeriesType? = null
-    ): CollectDataResponse {
-        return coroutineScope { scrapeAndSaveGameInfo(seriesType, season, month, month + 1) }
+    suspend fun collectAndSaveCurrentAndNextMonthGameInfo(season: Int, month: Int): CollectDataResponse {
+        return coroutineScope { scrapeAndSaveGameInfo(season, month, month + 1) }
     }
 
-    suspend fun collectAndSaveMonthGameInfo(
-        season: Int,
-        month: Int,
-        seriesType: SeriesType? = null
-    ): CollectDataResponse {
-        return coroutineScope { scrapeAndSaveGameInfo(seriesType, season, month) }
+    suspend fun collectAndSaveMonthGameInfo(season: Int, month: Int): CollectDataResponse {
+        return coroutineScope { scrapeAndSaveGameInfo(season, month) }
     }
 
     /**
      * 시즌 연도와 월 범위에 해당하는 경기 일정을 스크래핑하고 저장한다.
      *
-     * @param seriesType 스크래핑할 시리즈 타입 (null이면 전체 시리즈)
      * @param season 시즌 연도
      * @param startMonth 시작 월 (1~12)
-     * @param endMonth 종료 월 (1~12)
+     * @param endMonth 종료 월 (1~12). 기본값은 [startMonth]와 동일
      * @return 스크래핑된 경기 일정 목록
      */
     private suspend fun scrapeAndSaveGameInfo(
-        seriesType: SeriesType?,
         season: Int,
         startMonth: Int,
         endMonth: Int = startMonth
@@ -61,11 +48,8 @@ class CollectGameScheduleService(
         require(startMonth in 1..12 && endMonth in 1..12) { "월 값은 1부터 12 사이여야 합니다." }
         require(startMonth <= endMonth) { "시작 월은 종료 월 이하여야 합니다." }
 
-        // seriesType이 null이면 전체 시리즈 수집
-        val seriesTypes = seriesType?.let { listOf(it) } ?: SeriesType.entries
-
         val seasonGameInfo = coroutineScope {
-            seriesTypes.flatMap { type ->
+            SeriesType.entries.flatMap { type ->
                 (startMonth..endMonth).map { month ->
                     async(Dispatchers.IO) {
                         // KBO 서버 부하 방지를 위한 랜덤 딜레이(0.1 ~ 0.5초)
