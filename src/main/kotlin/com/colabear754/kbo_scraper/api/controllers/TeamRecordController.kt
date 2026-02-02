@@ -1,7 +1,7 @@
 package com.colabear754.kbo_scraper.api.controllers
 
 import com.colabear754.kbo_scraper.api.domain.game.Team
-import com.colabear754.kbo_scraper.api.dto.requests.CollectDataRequest
+import com.colabear754.kbo_scraper.api.dto.requests.CollectKboDataRequest
 import com.colabear754.kbo_scraper.api.dto.responses.TeamRecordResponse
 import com.colabear754.kbo_scraper.api.services.TeamRecordService
 import org.springframework.web.bind.annotation.GetMapping
@@ -17,7 +17,7 @@ class TeamRecordController(
     private val teamRecordService: TeamRecordService
 ) {
     @PostMapping("/collect")
-    fun collectTeamRecords(@RequestBody request: CollectDataRequest) {
+    fun collectTeamRecords(@RequestBody request: CollectKboDataRequest) {
         teamRecordService.collectTeamRecords(request.season)
     }
 

@@ -2,7 +2,7 @@ package com.colabear754.kbo_scraper.api.services
 
 import com.colabear754.kbo_scraper.api.domain.game.GameInfo
 import com.colabear754.kbo_scraper.api.domain.game.SeriesType
-import com.colabear754.kbo_scraper.api.dto.responses.CollectDataResponse
+import com.colabear754.kbo_scraper.api.dto.responses.CollectKboDataResponse
 import com.colabear754.kbo_scraper.api.properties.GameScheduleProperties
 import com.colabear754.kbo_scraper.api.scrapers.launchChromium
 import com.colabear754.kbo_scraper.api.scrapers.navigateAndBlock
@@ -20,15 +20,15 @@ class CollectGameScheduleService(
     private val gameScheduleProperties: GameScheduleProperties,
     private val gameInfoWriter: GameInfoWriter
 ) {
-    suspend fun collectAndSaveSeasonGameInfo(season: Int): CollectDataResponse {
+    suspend fun collectAndSaveSeasonGameInfo(season: Int): CollectKboDataResponse {
         return coroutineScope { scrapeAndSaveGameInfo(season, 1, 12) }
     }
 
-    suspend fun collectAndSaveCurrentAndNextMonthGameInfo(season: Int, month: Int): CollectDataResponse {
+    suspend fun collectAndSaveCurrentAndNextMonthGameInfo(season: Int, month: Int): CollectKboDataResponse {
         return coroutineScope { scrapeAndSaveGameInfo(season, month, month + 1) }
     }
 
-    suspend fun collectAndSaveMonthGameInfo(season: Int, month: Int): CollectDataResponse {
+    suspend fun collectAndSaveMonthGameInfo(season: Int, month: Int): CollectKboDataResponse {
         return coroutineScope { scrapeAndSaveGameInfo(season, month) }
     }
 
@@ -44,7 +44,7 @@ class CollectGameScheduleService(
         season: Int,
         startMonth: Int,
         endMonth: Int = startMonth
-    ): CollectDataResponse {
+    ): CollectKboDataResponse {
         require(startMonth in 1..12 && endMonth in 1..12) { "월 값은 1부터 12 사이여야 합니다." }
         require(startMonth <= endMonth) { "시작 월은 종료 월 이하여야 합니다." }
 

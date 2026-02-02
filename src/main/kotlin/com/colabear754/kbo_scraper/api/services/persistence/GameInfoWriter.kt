@@ -1,7 +1,7 @@
 package com.colabear754.kbo_scraper.api.services.persistence
 
 import com.colabear754.kbo_scraper.api.domain.game.GameInfo
-import com.colabear754.kbo_scraper.api.dto.responses.CollectDataResponse
+import com.colabear754.kbo_scraper.api.dto.responses.CollectKboDataResponse
 import com.colabear754.kbo_scraper.api.repositories.GameInfoRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -11,7 +11,7 @@ class GameInfoWriter(
     private val gameInfoRepository: GameInfoRepository
 ) {
     @Transactional
-    fun saveOrUpdateGameInfo(gameInfoList: List<GameInfo>): CollectDataResponse {
+    fun saveOrUpdateGameInfo(gameInfoList: List<GameInfo>): CollectKboDataResponse {
         val existingGamesMap = gameInfoRepository.findByGameKeyIn(gameInfoList.map { it.gameKey })
             .associateBy { it.gameKey }
 
@@ -25,6 +25,6 @@ class GameInfoWriter(
             }
         }
 
-        return CollectDataResponse(gameInfoList.size, newGameList.size, modifiedCount)
+        return CollectKboDataResponse(gameInfoList.size, newGameList.size, modifiedCount)
     }
 }

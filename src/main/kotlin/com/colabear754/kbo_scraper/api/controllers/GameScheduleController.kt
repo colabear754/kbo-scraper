@@ -1,8 +1,8 @@
 package com.colabear754.kbo_scraper.api.controllers
 
 import com.colabear754.kbo_scraper.api.domain.game.Team
-import com.colabear754.kbo_scraper.api.dto.requests.CollectDataRequest
-import com.colabear754.kbo_scraper.api.dto.responses.CollectDataResponse
+import com.colabear754.kbo_scraper.api.dto.requests.CollectKboDataRequest
+import com.colabear754.kbo_scraper.api.dto.responses.CollectKboDataResponse
 import com.colabear754.kbo_scraper.api.dto.responses.FindGameInfoResponse
 import com.colabear754.kbo_scraper.api.services.CollectGameScheduleService
 import com.colabear754.kbo_scraper.api.services.GameInfoFinderService
@@ -16,7 +16,7 @@ class GameScheduleController(
     private val gameInfoFinderService: GameInfoFinderService
 ) {
     @PostMapping("/collect")
-    suspend fun collectGameScheduleData(@RequestBody request: CollectDataRequest): CollectDataResponse {
+    suspend fun collectGameScheduleData(@RequestBody request: CollectKboDataRequest): CollectKboDataResponse {
         return collectGameScheduleService.collectAndSaveSeasonGameInfo(request.season)
     }
 
