@@ -34,8 +34,6 @@ class TeamRecordServiceTest : BehaviorSpec({
     }
 
     Given("팀 기록 정보가 준비되었을 때") {
-        mockkStatic("com.colabear754.kbo_scraper.api.scrapers.PlaywrightExtensionKt")
-
         val newRecord = mockk<TeamSeasonRecord>(relaxed = true).apply { every { team } returns Team.KIA }
         val existingRecordToUpdate = mockk<TeamSeasonRecord>(relaxed = true).apply { every { team } returns Team.LG }
         val seasonRecords = listOf(newRecord, existingRecordToUpdate)
@@ -54,8 +52,6 @@ class TeamRecordServiceTest : BehaviorSpec({
                 verify(exactly = 1) { existingRecord.updateStats(existingRecordToUpdate) }
             }
         }
-
-        unmockkStatic("com.colabear754.kbo_scraper.api.scrapers.PlaywrightExtensionKt")
     }
 
     Given("팀 순위 정보가 저장되어 있을 때") {
