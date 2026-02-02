@@ -1,6 +1,6 @@
 package com.colabear754.kbo_scraper.api.repositories
 
-import com.colabear754.kbo_scraper.api.domain.GameInfo
+import com.colabear754.kbo_scraper.api.domain.game.GameInfo
 import org.springframework.data.jpa.repository.JpaRepository
 import java.time.LocalDate
 

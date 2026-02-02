@@ -3,8 +3,8 @@ package com.colabear754.kbo_scraper.api.config
 import com.colabear754.kbo_scraper.api.constants.GAME_INFO_BY_DATE
 import com.colabear754.kbo_scraper.api.constants.GAME_INFO_BY_KEY
 import com.colabear754.kbo_scraper.api.constants.TEAM_SEASON_RECORD
-import com.colabear754.kbo_scraper.api.domain.GameInfo
-import com.colabear754.kbo_scraper.api.domain.TeamSeasonRecord
+import com.colabear754.kbo_scraper.api.domain.game.GameInfo
+import com.colabear754.kbo_scraper.api.domain.game.TeamSeasonRecord
 import com.github.benmanes.caffeine.cache.Cache
 import com.github.benmanes.caffeine.cache.Caffeine
 import com.github.benmanes.caffeine.cache.Expiry

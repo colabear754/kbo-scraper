@@ -2,7 +2,7 @@ package com.colabear754.kbo_scraper.api.repositories.cache
 
 import com.colabear754.kbo_scraper.api.constants.GAME_INFO_BY_DATE
 import com.colabear754.kbo_scraper.api.constants.GAME_INFO_BY_KEY
-import com.colabear754.kbo_scraper.api.domain.GameInfo
+import com.colabear754.kbo_scraper.api.domain.game.GameInfo
 import org.springframework.cache.CacheManager
 import org.springframework.stereotype.Repository
 import java.time.LocalDate

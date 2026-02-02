@@ -1,6 +1,6 @@
 package com.colabear754.kbo_scraper.api.controllers
 
-import com.colabear754.kbo_scraper.api.domain.Team
+import com.colabear754.kbo_scraper.api.domain.game.Team
 import com.colabear754.kbo_scraper.api.dto.requests.CollectDataRequest
 import com.colabear754.kbo_scraper.api.dto.responses.CollectDataResponse
 import com.colabear754.kbo_scraper.api.dto.responses.FindGameInfoResponse

@@ -1,7 +1,7 @@
 package com.colabear754.kbo_scraper.api.services
 
-import com.colabear754.kbo_scraper.api.domain.Team
-import com.colabear754.kbo_scraper.api.domain.TeamSeasonRecord
+import com.colabear754.kbo_scraper.api.domain.game.Team
+import com.colabear754.kbo_scraper.api.domain.game.TeamSeasonRecord
 import com.colabear754.kbo_scraper.api.properties.TeamRecordProperties
 import com.colabear754.kbo_scraper.api.repositories.TeamSeasonRecordRepository
 import com.colabear754.kbo_scraper.api.repositories.cache.TeamSeasonRecordCacheRepository

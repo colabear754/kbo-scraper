@@ -1,6 +1,6 @@
 package com.colabear754.kbo_scraper.api.services.persistence
 
-import com.colabear754.kbo_scraper.api.domain.GameInfo
+import com.colabear754.kbo_scraper.api.domain.game.GameInfo
 import com.colabear754.kbo_scraper.api.repositories.GameInfoRepository
 import io.kotest.core.spec.style.BehaviorSpec
 import io.kotest.matchers.collections.shouldContain

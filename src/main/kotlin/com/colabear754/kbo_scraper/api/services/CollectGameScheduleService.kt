@@ -1,7 +1,7 @@
 package com.colabear754.kbo_scraper.api.services
 
-import com.colabear754.kbo_scraper.api.domain.GameInfo
-import com.colabear754.kbo_scraper.api.domain.SeriesType
+import com.colabear754.kbo_scraper.api.domain.game.GameInfo
+import com.colabear754.kbo_scraper.api.domain.game.SeriesType
 import com.colabear754.kbo_scraper.api.dto.responses.CollectDataResponse
 import com.colabear754.kbo_scraper.api.properties.GameScheduleProperties
 import com.colabear754.kbo_scraper.api.scrapers.launchChromium

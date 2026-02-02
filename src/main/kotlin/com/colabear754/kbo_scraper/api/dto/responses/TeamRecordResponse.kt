@@ -1,6 +1,6 @@
 package com.colabear754.kbo_scraper.api.dto.responses
 
-import com.colabear754.kbo_scraper.api.domain.TeamSeasonRecord
+import com.colabear754.kbo_scraper.api.domain.game.TeamSeasonRecord
 
 data class TeamRecordResponse(
     val rank: Int,

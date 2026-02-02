@@ -1,5 +1,6 @@
-package com.colabear754.kbo_scraper.api.domain
+package com.colabear754.kbo_scraper.api.domain.game
 
+import com.colabear754.kbo_scraper.api.domain.BaseEntity
 import jakarta.persistence.*
 import jakarta.validation.constraints.Size
 import java.time.Duration

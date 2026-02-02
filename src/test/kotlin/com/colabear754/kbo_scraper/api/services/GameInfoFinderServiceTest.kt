@@ -1,9 +1,9 @@
 package com.colabear754.kbo_scraper.api.services
 
-import com.colabear754.kbo_scraper.api.domain.GameInfo
-import com.colabear754.kbo_scraper.api.domain.GameStatus
-import com.colabear754.kbo_scraper.api.domain.SeriesType
-import com.colabear754.kbo_scraper.api.domain.Team
+import com.colabear754.kbo_scraper.api.domain.game.GameInfo
+import com.colabear754.kbo_scraper.api.domain.game.GameStatus
+import com.colabear754.kbo_scraper.api.domain.game.SeriesType
+import com.colabear754.kbo_scraper.api.domain.game.Team
 import com.colabear754.kbo_scraper.api.repositories.GameInfoRepository
 import com.colabear754.kbo_scraper.api.repositories.cache.GameInfoCacheRepository
 import io.kotest.core.spec.style.BehaviorSpec

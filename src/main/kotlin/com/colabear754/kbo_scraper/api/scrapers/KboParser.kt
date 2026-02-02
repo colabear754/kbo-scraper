@@ -1,6 +1,11 @@
 package com.colabear754.kbo_scraper.api.scrapers
 
-import com.colabear754.kbo_scraper.api.domain.*
+import com.colabear754.kbo_scraper.api.domain.game.CancellationReason
+import com.colabear754.kbo_scraper.api.domain.game.GameInfo
+import com.colabear754.kbo_scraper.api.domain.game.GameStatus
+import com.colabear754.kbo_scraper.api.domain.game.SeriesType
+import com.colabear754.kbo_scraper.api.domain.game.Team
+import com.colabear754.kbo_scraper.api.domain.game.TeamSeasonRecord
 import com.microsoft.playwright.Locator
 import java.time.LocalDate
 import java.time.LocalTime

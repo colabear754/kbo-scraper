@@ -1,6 +1,6 @@
 package com.colabear754.kbo_scraper.api.services.persistence
 
-import com.colabear754.kbo_scraper.api.domain.GameInfo
+import com.colabear754.kbo_scraper.api.domain.game.GameInfo
 import com.colabear754.kbo_scraper.api.dto.responses.CollectDataResponse
 import com.colabear754.kbo_scraper.api.repositories.GameInfoRepository
 import org.springframework.stereotype.Service

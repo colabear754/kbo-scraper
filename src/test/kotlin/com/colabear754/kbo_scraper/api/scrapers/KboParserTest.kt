@@ -1,10 +1,9 @@
 package com.colabear754.kbo_scraper.api.scrapers
 
-import com.colabear754.kbo_scraper.api.domain.CancellationReason
-import com.colabear754.kbo_scraper.api.domain.GameStatus
-import com.colabear754.kbo_scraper.api.domain.SeriesType
-import com.colabear754.kbo_scraper.api.domain.Team
-import com.colabear754.kbo_scraper.api.domain.TeamSeasonRecord
+import com.colabear754.kbo_scraper.api.domain.game.CancellationReason
+import com.colabear754.kbo_scraper.api.domain.game.GameStatus
+import com.colabear754.kbo_scraper.api.domain.game.SeriesType
+import com.colabear754.kbo_scraper.api.domain.game.Team
 import com.microsoft.playwright.Page
 import com.microsoft.playwright.Playwright
 import io.kotest.core.spec.style.StringSpec

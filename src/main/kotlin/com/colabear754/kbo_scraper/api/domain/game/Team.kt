@@ -1,4 +1,4 @@
-package com.colabear754.kbo_scraper.api.domain
+package com.colabear754.kbo_scraper.api.domain.game
 
 enum class Team(
     val teamName: String,

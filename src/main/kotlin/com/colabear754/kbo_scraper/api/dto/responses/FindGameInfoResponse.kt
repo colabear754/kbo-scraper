@@ -1,6 +1,6 @@
 package com.colabear754.kbo_scraper.api.dto.responses
 
-import com.colabear754.kbo_scraper.api.domain.GameInfo
+import com.colabear754.kbo_scraper.api.domain.game.GameInfo
 import java.time.LocalDate
 import java.time.LocalTime
 
