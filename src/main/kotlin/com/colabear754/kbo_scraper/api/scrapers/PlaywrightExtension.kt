@@ -19,17 +19,17 @@ internal fun <R> Browser.navigateAndBlock(url: String, block: Page.() -> R) =
 /**
  * 셀렉트 박스 조작 후 DOM이 사라질 때까지 대기한다.
  *
- * @receiver 셀렉트 박스 선택자
+ * @receiver 셀렉트 박스 [Locator]
  * @param optionValue 선택할 옵션 값
- * @param domLocator 사라질 요소의 Locator
+ * @param targetDomLocator 사라질 요소의 [Locator]
  */
-internal fun String.selectOptionAndWaitForDomChange(
+internal fun Locator.selectOptionAndWaitForDomChange(
     optionValue: String,
-    domLocator: Locator
+    targetDomLocator: Locator
 ) {
-    val oldElement = domLocator.elementHandle()
+    val oldElement = targetDomLocator.elementHandle()
 
-    domLocator.page().locator(this).selectOption(optionValue)
+    selectOption(optionValue)
 
     oldElement?.waitForElementState(
         ElementState.HIDDEN,

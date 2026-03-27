@@ -28,8 +28,8 @@ class TeamRecordService(
                     throw NoSuchElementException("$season 팀 기록 정보가 존재하지 않습니다.")
                 }
                 // 시즌 선택
-                teamRecordProperties.selectors.year.selectOptionAndWaitForDomChange("$season", rankTableLocator)
-                teamRecordProperties.selectors.series.selectOptionAndWaitForDomChange("0", rankTableLocator)
+                locator(teamRecordProperties.selectors.year).selectOptionAndWaitForDomChange("$season", rankTableLocator)
+                locator(teamRecordProperties.selectors.series).selectOptionAndWaitForDomChange("0", rankTableLocator)
                 // 전체 row 선택 후 파싱
                 val rankTableRows = rankTableLocator.locator("tr").all()
                 parseTeamSeasonRecord(rankTableRows, season)

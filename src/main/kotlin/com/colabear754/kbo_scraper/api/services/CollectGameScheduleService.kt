@@ -67,9 +67,9 @@ class CollectGameScheduleService(
         return navigateAndBlock(gameScheduleProperties.url) {
             val scheduleTableLocator = locator(gameScheduleProperties.selectors.gamesTable)
             // 시즌 및 시리즈 선택
-            gameScheduleProperties.selectors.year.selectOptionAndWaitForDomChange("$season", scheduleTableLocator)
-            gameScheduleProperties.selectors.month.selectOptionAndWaitForDomChange("$month".padStart(2, '0'), scheduleTableLocator)
-            gameScheduleProperties.selectors.series.selectOptionAndWaitForDomChange(seriesType.code, scheduleTableLocator)
+            locator(gameScheduleProperties.selectors.year).selectOptionAndWaitForDomChange("$season", scheduleTableLocator)
+            locator(gameScheduleProperties.selectors.month).selectOptionAndWaitForDomChange("$month".padStart(2, '0'), scheduleTableLocator)
+            locator(gameScheduleProperties.selectors.series).selectOptionAndWaitForDomChange(seriesType.code, scheduleTableLocator)
             // 전체 row 선택 후 파싱하여 반환
             val scheduleTableRows = scheduleTableLocator.locator("tr").all()
             parseGameSchedule(scheduleTableRows, season, seriesType)
