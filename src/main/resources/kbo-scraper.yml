@@ -7,6 +7,16 @@ kbo:
         month: "#ddlMonth"
         series: "#ddlSeries"
         games-table: "#tblScheduleList > tbody"
+    playing-game:
+      url: https://www.koreabaseball.com/Schedule/GameCenter/Main.aspx
+      selectors:
+        game-list: "#contents > .today-game > .bx-wrapper > .bx-viewport > .game-list-n"
+        game-status: "#contents > .today-game > .bx-wrapper > .bx-viewport > .game-list-n > .game-cont > .middle > .status"
+        game-score: "#contents > .today-game > .bx-wrapper > .bx-viewport > .game-list-n > .game-cont > .middle > .info"
+        calendar-trigger: "#contents > .date-select > .btn-wrap.right > .ui-datepicker-trigger"
+        year-picker: "#ui-datepicker-div > .ui-datepicker-header > .ui-datepicker-title > .ui-datepicker-year"
+        month-picker: "#ui-datepicker-div > .ui-datepicker-header > .ui-datepicker-title > .ui-datepicker-month"
+        day-picker: "#ui-datepicker-div > .ui-datepicker-calendar > tbody > tr > td > a"
     team-record:
       url: https://www.koreabaseball.com/Record/TeamRank/TeamRank.aspx
       selectors:
